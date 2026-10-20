@@ -1,7 +1,7 @@
 {
   "name": "crypto-screener-top100",
   "version": "1.0.0",
-  "description": "Screener Top 100 Cryptos avec filtres et alertes",
+  "description": "Screener Top 100 Cryptos avec filtres et alertes Discord",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
