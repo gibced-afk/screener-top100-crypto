@@ -4,11 +4,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ====================== CONFIG ======================
-const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1561547598077239346/y32Tj-IkL-Z-Qdk6HNDOOJ6BtAkSSjNkq0Kz4rDxZMKNSFvden5D9GHzLWRmkYxQ95v5";
-const REFRESH_INTERVAL = 4 * 60 * 1000; // 4 minutes (plus safe)
+const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1561976328578662423/U8jUjktHzaVe_uGHc19IQa5dg3JoehUZcQUgXlK2TzzbH6-BRl7b-ywe3fag_fCY-Dpy";
+const REFRESH_INTERVAL = 4 * 60 * 1000; // 4 minutes
 let coinsData = [];
 let previousStatus = {};
-let changeHistory = []; // 10 derniers changements
+let changeHistory = [];
 let isRateLimited = false;
 
 // ====================== SIGNAL ======================
@@ -82,7 +82,6 @@ async function checkTop100() {
       const id = coin.id;
       const symbol = coin.symbol.toUpperCase();
 
-      // Changement détecté ?
       if (previousStatus[id] && previousStatus[id] !== signal.type) {
         const entry = {
           symbol,
@@ -98,8 +97,6 @@ async function checkTop100() {
       }
 
       newStatus[id] = signal.type;
-
-      // On enrichit les données pour le frontend
       coin.signal = signal.type;
       coin.signalLabel = signal.label;
       coin.lastChange = previousStatus[id] !== signal.type ? now : (coin.lastChange || 0);
@@ -229,13 +226,10 @@ app.get('/', (req, res) => {
     function render() {
       let list = [...allCoins];
 
-      // Filtre
       if (currentFilter !== 'all') {
         list = list.filter(c => c.signal === currentFilter);
-        // Trie par changement le plus récent en premier
         list.sort((a, b) => (b.lastChange || 0) - (a.lastChange || 0));
       } else {
-        // Priorité Vert → Jaune → Rouge
         const order = { buy: 0, neutral: 1, sell: 2 };
         list.sort((a, b) => order[a.signal] - order[b.signal]);
       }
@@ -290,7 +284,6 @@ app.get('/', (req, res) => {
       }
     }
 
-    // Filtres
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -301,7 +294,7 @@ app.get('/', (req, res) => {
     });
 
     loadData();
-    setInterval(loadData, 30000); // Rafraîchit l'affichage toutes les 30s
+    setInterval(loadData, 30000);
   </script>
 </body>
 </html>`);
