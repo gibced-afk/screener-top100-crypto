@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 // ====================== CONFIG ======================
 const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1561976328578662423/U8jUjktHzaVe_uGHc19IQa5dg3JoehUZcQUgXlK2TzzbH6-BRl7b-ywe3fag_fCY-Dpy";
-const REFRESH_INTERVAL = 7 * 60 * 1000; // 7 minutes
+const REFRESH_INTERVAL = 10 * 60 * 1000; // 10 minutes
 let coinsData = [];
 let previousStatus = {};
 let changeHistory = [];
